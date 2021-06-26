@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Thought } = require('../models');
+const { User, Book } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -8,8 +8,7 @@ const resolvers = {
             if (context.user) {
                 const userData = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
-                    // .populate('thoughts')
-                    // .populate('friends');
+                    .populate('savedBooks')
 
                 return userData;
             }
@@ -19,22 +18,20 @@ const resolvers = {
         users: async () => {
             return User.find()
                 .select('-__v -password')
-                // .populate('thoughts')
-                // .populate('friends');
+                .populate('savedBooks')
         },
         user: async (parent, { username }) => {
             return User.findOne({ username })
                 .select('-__v -password')
-                // .populate('friends')
-                // .populate('thoughts');
+                .populate('savedBooks')
         },
-        // thoughts: async (parent, { username }) => {
-        //     const params = username ? { username } : {};
-        //     return Thought.find(params).sort({ createdAt: -1 });
-        // },
-        // thought: async (parent, { _id }) => {
-        //     return Thought.findOne({ _id });
-        // }
+        books: async (parent, { username }) => {
+            const params = username ? { username } : {};
+            return Book.find(params).sort({ createdAt: -1 });
+        },
+        book: async (parent, { _id }) => {
+            return Book.findOne({ _id });
+        }
     },
 
     Mutation: {
