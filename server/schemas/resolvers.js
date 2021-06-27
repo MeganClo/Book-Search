@@ -39,17 +39,15 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        saveBook: async (parent, { bookInfo }, context) => {
+        saveBook: async (_parent, { bookData }, context) => {
             if (context.user) {
-                const newUserInfo = await User.findByIdAndUpdate(
+                const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },
-                    { $push: { savedBooks: bookInfo } },
+                    { $push: { savedBooks: bookData } },
                     { new: true }
                 );
-
-                return newUserInfo;
+                return updatedUser;
             }
-
             throw new AuthenticationError('You need to be logged in!');
         },
         removeBook: async (parent, { bookInfo }, context) => {

@@ -1,8 +1,9 @@
 // import our dependencies
 const { gql } = require('apollo-server-express');
 
-// create the gql typeDefs
+// create the gql typeDefs to export
 const typeDefs = gql`
+
     type User {
         _id: ID!
         username: String
@@ -12,12 +13,12 @@ const typeDefs = gql`
     }
 
     type Book {
-        bookId: String!
+        bookId: String
         description: String
         authors: [String]
         image: String
         link: String
-        title: String!
+        title: String
     }
 
     type Auth {
@@ -37,10 +38,10 @@ const typeDefs = gql`
     }
 
     input BookInput {
-        title: String!
+        title: String
         authors: [String]
         description: String
-        bookId: String!
+        bookId: String
         image: String
         link: String
     }
