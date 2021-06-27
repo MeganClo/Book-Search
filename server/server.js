@@ -8,7 +8,7 @@ const { typeDefs, resolvers } = require("./schemas");
 const { authMiddleware } = require("./utils/auth");
 const db = require('./config/connection');
 
-const routes = require('./routes');
+// const routes = require('./routes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-app.use(routes);
+// app.use(routes);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
